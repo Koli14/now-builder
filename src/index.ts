@@ -117,15 +117,17 @@ export async function build({
 
     const minNodeRange: string | undefined = undefined;
 
+    const prefix = mountpoint === "" ? "" : `/${mountpoint}`;
+
     const routes: Route[] = [
       {
-        src: `/${mountpoint}/static/(.*)`,
+        src: `${prefix}/static/(.*)`,
         headers: { "cache-control": "public,max-age=31536000,immutable" },
         dest: `/static/$1`
       },
-      { src: `/${mountpoint}/favicon.ico`, dest: "favicon.ico" },
+      { src: `${prefix}/favicon.ico`, dest: "favicon.ico" },
       {
-        src: `/${mountpoint}($|/.*)`,
+        src: `${prefix}($|/.*)`,
         headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
         dest: `/server.js`
       }
