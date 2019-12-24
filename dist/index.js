@@ -49,6 +49,7 @@ async function build({ files, entrypoint, workPath, config, meta = {} }) {
     const distPath = path_1.default.join(workPath, mountpoint, (config && config.distDir) || "build");
     console.log("distPath", distPath);
     const entrypointName = path_1.default.basename(entrypoint);
+    console.log("entrypointName", entrypointName);
     if (entrypointName === "package.json") {
         const pkgPath = path_1.default.join(workPath, entrypoint);
         const pkg = JSON.parse(fs_1.readFileSync(pkgPath, "utf8"));

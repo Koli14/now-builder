@@ -109,6 +109,8 @@ export async function build({
 
   const entrypointName = path.basename(entrypoint);
 
+  console.log("entrypointName", entrypointName);
+
   if (entrypointName === "package.json") {
     const pkgPath = path.join(workPath, entrypoint);
     const pkg = JSON.parse(readFileSync(pkgPath, "utf8"));
