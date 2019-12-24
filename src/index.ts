@@ -105,6 +105,8 @@ export async function build({
     (config && (config.distDir as string)) || "build"
   );
 
+  console.log("distPath", distPath);
+
   const entrypointName = path.basename(entrypoint);
 
   if (entrypointName === "package.json") {
@@ -115,15 +117,15 @@ export async function build({
 
     const routes: Route[] = [
       {
-        src: `/static/(.*)`,
+        src: `${mountpoint}/static/(.*)`,
         headers: { "cache-control": "public,max-age=31536000,immutable" },
-        dest: `/static/$1`
+        dest: `${mountpoint}/static/$1`
       },
       { src: "/favicon.ico", dest: "/favicon.ico" },
       {
-        src: "/(.*)",
+        src: `${mountpoint}/(.*)`,
         headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
-        dest: "/server.js"
+        dest: `${mountpoint}/server.js`
       }
     ];
 

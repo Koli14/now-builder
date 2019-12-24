@@ -47,6 +47,7 @@ async function build({ files, entrypoint, workPath, config, meta = {} }) {
     const entrypointDir = path_1.default.join(workPath, mountpoint);
     console.log("mountpoint", mountpoint);
     const distPath = path_1.default.join(workPath, mountpoint, (config && config.distDir) || "build");
+    console.log("distPath", distPath);
     const entrypointName = path_1.default.basename(entrypoint);
     if (entrypointName === "package.json") {
         const pkgPath = path_1.default.join(workPath, entrypoint);
@@ -54,15 +55,15 @@ async function build({ files, entrypoint, workPath, config, meta = {} }) {
         const minNodeRange = undefined;
         const routes = [
             {
-                src: `/static/(.*)`,
+                src: `${mountpoint}/static/(.*)`,
                 headers: { "cache-control": "public,max-age=31536000,immutable" },
-                dest: `/static/$1`
+                dest: `${mountpoint}/static/$1`
             },
             { src: "/favicon.ico", dest: "/favicon.ico" },
             {
-                src: "/(.*)",
+                src: `${mountpoint}/(.*)`,
                 headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
-                dest: "/server.js"
+                dest: `${mountpoint}/server.js`
             }
         ];
         const nodeVersion = await build_utils_1.getNodeVersion(entrypointDir, minNodeRange);
