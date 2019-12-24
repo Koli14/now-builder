@@ -62,7 +62,7 @@ async function build({ files, entrypoint, workPath, config, meta = {} }) {
             },
             { src: `/${mountpoint}/favicon.ico`, dest: "favicon.ico" },
             {
-                src: `/${mountpoint}/(.*)`,
+                src: `/blog/(.*)`,
                 headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
                 dest: `/server.js`
             }
