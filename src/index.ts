@@ -117,7 +117,7 @@ export async function build({
 
     const minNodeRange: string | undefined = undefined;
 
-    const prefix = mountpoint === "" ? "" : `/${mountpoint}`;
+    const prefix = mountpoint === "." ? "" : `/${mountpoint}`;
 
     const routes: Route[] = [
       {
@@ -127,7 +127,7 @@ export async function build({
       },
       { src: `${prefix}/favicon.ico`, dest: "favicon.ico" },
       {
-        src: `/(.*)`,
+        src: `${prefix}($|/.*)`,
         headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
         dest: `/server.js`
       }

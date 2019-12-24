@@ -54,7 +54,7 @@ async function build({ files, entrypoint, workPath, config, meta = {} }) {
         const pkgPath = path_1.default.join(workPath, entrypoint);
         const pkg = JSON.parse(fs_1.readFileSync(pkgPath, "utf8"));
         const minNodeRange = undefined;
-        const prefix = mountpoint === "" ? "" : `/${mountpoint}`;
+        const prefix = mountpoint === "." ? "" : `/${mountpoint}`;
         const routes = [
             {
                 src: `${prefix}/static/(.*)`,
@@ -63,7 +63,7 @@ async function build({ files, entrypoint, workPath, config, meta = {} }) {
             },
             { src: `${prefix}/favicon.ico`, dest: "favicon.ico" },
             {
-                src: `/(.*)`,
+                src: `${prefix}($|/.*)`,
                 headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
                 dest: `/server.js`
             }
