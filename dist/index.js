@@ -56,15 +56,15 @@ async function build({ files, entrypoint, workPath, config, meta = {} }) {
         const minNodeRange = undefined;
         const routes = [
             {
-                src: `${mountpoint}/static/(.*)`,
+                src: `/${mountpoint}/static/(.*)`,
                 headers: { "cache-control": "public,max-age=31536000,immutable" },
-                dest: `/${mountpoint}/static/$1`
+                dest: `${mountpoint}/static/$1`
             },
-            { src: "favicon.ico", dest: "/favicon.ico" },
+            { src: "/favicon.ico", dest: "favicon.ico" },
             {
-                src: `${mountpoint}/(.*)`,
+                src: `/${mountpoint}/(.*)`,
                 headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
-                dest: `/${mountpoint}/server.js`
+                dest: `${mountpoint}/server.js`
             }
         ];
         const nodeVersion = await build_utils_1.getNodeVersion(entrypointDir, minNodeRange);
@@ -99,9 +99,11 @@ async function build({ files, entrypoint, workPath, config, meta = {} }) {
             }
         });
         const output = {
-            ...statics,
-            ...favicon,
-            "server.js": lambda
+            [mountpoint]: {
+                ...statics,
+                ...favicon,
+                "server.js": lambda
+            }
         };
         console.log("Finished.");
         return { routes, output };

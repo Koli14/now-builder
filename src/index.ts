@@ -28,7 +28,7 @@ interface PackageJson {
 }
 
 interface Output {
-  [name: string]: FileFsRef | Lambda;
+  [name: string]: FileFsRef | Lambda | Output;
 }
 
 function validateDistDir(
@@ -119,15 +119,15 @@ export async function build({
 
     const routes: Route[] = [
       {
-        src: `${mountpoint}/static/(.*)`,
+        src: `/${mountpoint}/static/(.*)`,
         headers: { "cache-control": "public,max-age=31536000,immutable" },
-        dest: `/${mountpoint}/static/$1`
+        dest: `${mountpoint}/static/$1`
       },
-      { src: "favicon.ico", dest: "/favicon.ico" },
+      { src: "/favicon.ico", dest: "favicon.ico" },
       {
-        src: `${mountpoint}/(.*)`,
+        src: `/${mountpoint}/(.*)`,
         headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
-        dest: `/${mountpoint}/server.js`
+        dest: `${mountpoint}/server.js`
       }
     ];
 
@@ -177,9 +177,11 @@ export async function build({
     });
 
     const output = {
-      ...statics,
-      ...favicon,
-      "server.js": lambda
+      [mountpoint]: {
+        ...statics,
+        ...favicon,
+        "server.js": lambda
+      }
     };
 
     console.log("Finished.");
