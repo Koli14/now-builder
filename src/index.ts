@@ -97,6 +97,8 @@ export async function build({
   const mountpoint = path.dirname(entrypoint);
   const entrypointDir = path.join(workPath, mountpoint);
 
+  console.log("mountpoint", mountpoint);
+
   const distPath = path.join(
     workPath,
     mountpoint,
