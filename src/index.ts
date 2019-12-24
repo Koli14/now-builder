@@ -123,7 +123,7 @@ export async function build({
         headers: { "cache-control": "public,max-age=31536000,immutable" },
         dest: `${mountpoint}/static/$1`
       },
-      { src: "/favicon.ico", dest: "/favicon.ico" },
+      { src: "favicon.ico", dest: "favicon.ico" },
       {
         src: `${mountpoint}/(.*)`,
         headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
@@ -152,9 +152,9 @@ export async function build({
     }
 
     validateDistDir(distPath, meta.isDev, config);
-    const statics = await glob("static/**", distPath, mountpoint);
-    const server = await glob("server.js", distPath, mountpoint);
-    const favicon = await glob("favicon.ico", workPath, mountpoint);
+    const statics = await glob("static/**", distPath);
+    const server = await glob("server.js", distPath);
+    const favicon = await glob("favicon.ico", workPath);
 
     const launcherFiles = {
       "now__bridge.js": new FileFsRef({

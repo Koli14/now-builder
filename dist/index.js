@@ -60,7 +60,7 @@ async function build({ files, entrypoint, workPath, config, meta = {} }) {
                 headers: { "cache-control": "public,max-age=31536000,immutable" },
                 dest: `${mountpoint}/static/$1`
             },
-            { src: "/favicon.ico", dest: "/favicon.ico" },
+            { src: "favicon.ico", dest: "favicon.ico" },
             {
                 src: `${mountpoint}/(.*)`,
                 headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
@@ -77,9 +77,9 @@ async function build({ files, entrypoint, workPath, config, meta = {} }) {
             throw new Error(`Missing required "${buildScript}" script in "${entrypoint}"`);
         }
         validateDistDir(distPath, meta.isDev, config);
-        const statics = await build_utils_1.glob("static/**", distPath, mountpoint);
-        const server = await build_utils_1.glob("server.js", distPath, mountpoint);
-        const favicon = await build_utils_1.glob("favicon.ico", workPath, mountpoint);
+        const statics = await build_utils_1.glob("static/**", distPath);
+        const server = await build_utils_1.glob("server.js", distPath);
+        const favicon = await build_utils_1.glob("favicon.ico", workPath);
         const launcherFiles = {
             "now__bridge.js": new build_utils_1.FileFsRef({
                 fsPath: require("@now/node-bridge")
